@@ -125,7 +125,7 @@ def init_parser():
         help="Start date in YYYY-MM-DD format"
     )
     kpi_parser.add_argument(
-        "-to-date",
+        "--to-date",
         type=validate_date_arg,
         required=True,
         help="End date in YYYY-MM-DD format"
