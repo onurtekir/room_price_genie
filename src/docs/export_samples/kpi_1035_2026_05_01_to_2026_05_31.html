@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="tr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>KPI Report</title>
+
+    <style>
+        body {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: rgb(69, 69, 69);
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100vw;
+            min-height: 100vh;
+        }
+
+
+        /* 
+============================
+HEADER
+============================ 
+*/
+
+        .header {
+            height: 14vh;
+            width: 90vw;
+            border-bottom: 1px solid whitesmoke;
+            margin: 0 auto;
+        }
+
+        .header>* {
+            float: left;
+        }
+
+        .header .logo {
+            width: 200px;
+            height: 14vh;
+            background: url("https://roompricegenie.com/wp-content/uploads/2022/04/rpg_Logo_indigo.svg");
+            background-repeat: no-repeat;
+            background-size: 50%;
+            background-position: center;
+        }
+
+        .header .logo img {
+            height: 10vh;
+            margin-top: 2vh;
+        }
+
+        .header .title {
+            width: calc(90vw - 400px);
+            line-height: 14vh;
+            text-align: center;
+            font-size: 3vh;
+            font-weight: bold;
+        }
+
+        .kpi-container {
+            min-height: calc(100vh - 14vh - 6vh - 30px - 4vh);
+        }
+
+        /* 
+============================
+KPI INFORMATION
+============================ 
+*/
+
+        .kpi-information {
+            clear: both;
+            width: 90vw;
+            margin: 0 auto;
+            margin-top: 3vh;
+        }
+
+        .kpi-information table td:nth-child(1) {
+            font-weight: bold;
+            padding-bottom: 5px;
+        }
+
+        /* 
+============================
+KPI REPORT
+============================ 
+*/
+
+        .kpi-report {
+            clear: both;
+            width: 90vw;
+            margin: 0 auto;
+            margin-top: 3vh;
+        }
+
+        .kpi-report table {
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        .kpi-report table thead {
+            text-align: center;
+        }
+
+        .kpi-report table thead {
+            height: 50px;
+        }
+
+        .kpi-report table thead th {
+            border-bottom: 1px solid rgb(69, 69, 69);
+        }
+
+        .kpi-report tbody td {
+            padding-bottom: 5px;
+            padding-top: 5px;
+            border-bottom: 1px solid whitesmoke;
+        }
+
+        .kpi-report tbody td:nth-child(1),
+        .kpi-report tbody td:nth-child(2) {
+            text-align: center;
+        }
+
+        .kpi-report tbody td:nth-child(3),
+        .kpi-report tbody td:nth-child(4) {
+            text-align: right;
+            padding-right: 10px;
+        }
+
+        .kpi-report tbody tr:nth-child(even) {
+            background-color: whitesmoke;
+        }
+
+        /* 
+============================
+FOOTER
+============================ 
+*/
+
+        .footer {
+            text-align: center;
+            line-height: 30px;
+            margin-top: 2vh;
+            margin-bottom: 2vh;
+        }
+    </style>
+
+
+
+</head>
+
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+
+            <div class="logo"></div>
+            <div class="title"><span>KPI Report</span></div>
+
+        </div>
+
+        <div class="kpi-container">
+
+            <div class="kpi-information">
+
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Report Date</td>
+                            <td>:</td>
+                            <td>2026-01-11 23:50:20</td>
+                        </tr>
+
+                        <tr>
+                            <td>Hotel Id</td>
+                            <td>:</td>
+                            <td>1035</td>
+                        </tr>
+
+                        <tr>
+                            <td>Start Date</td>
+                            <td>:</td>
+                            <td>2026-05-01</td>
+                        </tr>
+
+                        <tr>
+                            <td>End Date</td>
+                            <td>:</td>
+                            <td>2026-05-31</td>
+                        </tr>
+
+                        <tr>
+                            <td>Exclude Dates</td>
+                            <td>:</td>
+                            <td>No dates excluded!</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div class="kpi-report">
+
+                <table cellspacing="0" cellpadding="0">
+                    <thead>
+                        <tr>
+                            <th>Night of Stay</th>
+                            <th>Occupancy Percentage</th>
+                            <th>Total Net Revenue</th>
+                            <th>ADR</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        
+                        <tr>
+                            <td>2026-05-31</td>
+                            <td>87.50%</td>
+                            <td>912.02 €</td>
+                            <td>130.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-30</td>
+                            <td>37.50%</td>
+                            <td>447.51 €</td>
+                            <td>149.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-29</td>
+                            <td>50.00%</td>
+                            <td>614.84 €</td>
+                            <td>154.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-28</td>
+                            <td>37.50%</td>
+                            <td>396.50 €</td>
+                            <td>132.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-25</td>
+                            <td>62.50%</td>
+                            <td>633.16 €</td>
+                            <td>127.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-24</td>
+                            <td>62.50%</td>
+                            <td>596.49 €</td>
+                            <td>119.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-23</td>
+                            <td>150.00%</td>
+                            <td>2256.04 €</td>
+                            <td>188.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-22</td>
+                            <td>150.00%</td>
+                            <td>2198.41 €</td>
+                            <td>183.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-21</td>
+                            <td>25.00%</td>
+                            <td>401.67 €</td>
+                            <td>201.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-20</td>
+                            <td>137.50%</td>
+                            <td>1516.52 €</td>
+                            <td>138.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-19</td>
+                            <td>112.50%</td>
+                            <td>1081.52 €</td>
+                            <td>120.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-18</td>
+                            <td>12.50%</td>
+                            <td>142.50 €</td>
+                            <td>143.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-17</td>
+                            <td>25.00%</td>
+                            <td>330.88 €</td>
+                            <td>165.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-16</td>
+                            <td>175.00%</td>
+                            <td>2551.95 €</td>
+                            <td>182.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-15</td>
+                            <td>200.00%</td>
+                            <td>2924.74 €</td>
+                            <td>183.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-14</td>
+                            <td>175.00%</td>
+                            <td>2364.98 €</td>
+                            <td>169.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-13</td>
+                            <td>87.50%</td>
+                            <td>817.75 €</td>
+                            <td>117.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-12</td>
+                            <td>37.50%</td>
+                            <td>330.28 €</td>
+                            <td>110.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-11</td>
+                            <td>25.00%</td>
+                            <td>195.08 €</td>
+                            <td>98.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-09</td>
+                            <td>12.50%</td>
+                            <td>145.00 €</td>
+                            <td>145.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-08</td>
+                            <td>12.50%</td>
+                            <td>145.00 €</td>
+                            <td>145.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-07</td>
+                            <td>12.50%</td>
+                            <td>145.00 €</td>
+                            <td>145.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-06</td>
+                            <td>12.50%</td>
+                            <td>125.84 €</td>
+                            <td>126.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-04</td>
+                            <td>37.50%</td>
+                            <td>347.76 €</td>
+                            <td>116.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-03</td>
+                            <td>12.50%</td>
+                            <td>133.42 €</td>
+                            <td>133.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-02</td>
+                            <td>175.00%</td>
+                            <td>2530.75 €</td>
+                            <td>181.00 €</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2026-05-01</td>
+                            <td>87.50%</td>
+                            <td>1130.86 €</td>
+                            <td>162.00 €</td>
+                        </tr>
+                        
+
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+        <div class="footer">
+            Generated by © RoomPriceGenie - 2026
+        </div>
+
+    </div>
+
+</body>
+
+</html>
