@@ -186,3 +186,12 @@ rpg --config-path config/config.json \
 - Dates must be in `YYYY-MM-DD` format
 - `--exclude-dates` muts be a **comma-separeted** list of dates in `YYYY-MM-DD` format.
 - `--export-type` accepts only `CSV` or `HTML` (**case-insensitive**)
+
+### Output file name convention
+Output file name is automatically formatted as: 
+
+`kpi_<hotel_id>_<YYYY>_<MM>_<DD>_to_<YYYY>_<MM>_<DD>.<file_extension>`
+
+Example:
+- CSV : `kpi_1036_2025_01_01_to_2026_02_01.csv`
+- HTML : `kpi_1035_2026_01_01_to_2026_02_01.html`
