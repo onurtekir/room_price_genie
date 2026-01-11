@@ -187,6 +187,37 @@ rpg --config-path config/config.json \
 - `--exclude-dates` muts be a **comma-separeted** list of dates in `YYYY-MM-DD` format.
 - `--export-type` accepts only `CSV` or `HTML` (**case-insensitive**)
 
+### Architecture and Design
+
+![Overall Architecture](src/docs/img/overall_diagram.png)
+
+- `CLI`: CLI is responsible for instantiate and run the pipeline in `run_once` and `scheduled` mode, and 
+calculate/export KPI reports.
+- `Ingestion Pipeline`: Ingestion pipeline is responsible for reading `inventory` and `reservations` files, 
+run validation rules and load them into database. The ingestion pipeline can be executed in `run_once` and `scheduled`
+mode. `INGESTION` and `LOGIC` validation performs in ingestion pipeline.
+- `Scheduler`: Scheduler is responsible for running the ingestion pipeline in pre-defined periods.
+- `Database`: Database is responsible for storing `inventory`, `reservations` and `rejected reservations`. 
+- `Database Views`: Database view are responsible for performing `BUSINESS` level validations and `KPI` calculations.
+All the deduplication, business level validations and KPI calculation are performing by using:
+  - `view_reservations`: Business level validation and deduplication.
+  - `view_kpi`: KPI calculation.
+- `KPI`: KPI is responsible for calculating KPI report and exporting calculated report as `CSV` or `HTML`.
+
+
+### Data Validation Rules
+You can find the detailed data validation rules documentation here:
+[Data Validation Rules](src/docs/DATA_VALIDATION_RULES.md)
+
+### Pipeline Ingestion Logic
+You can find the pipeline ingestion logic documentation here:
+[Pipeline Ingestion Logic](src/docs/INGESTION_LOGIC.MD)
+
+### Sample KPI Report 
+You can find the sample KPI report for the `hotel_id`=`1035` for the dates between `2026-05-01` and `2026-05-31`:
+- `CSV`: [CSV sample](src/docs/export_samples/kpi_1035_2026_05_01_to_2026_05_31.csv)
+- `HTML`: [HTML sample](src/docs/export_samples/kpi_1035_2026_05_01_to_2026_05_31.html)
+
 ### Output file name convention
 Output file name is automatically formatted as: 
 
