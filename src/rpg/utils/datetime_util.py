@@ -1,5 +1,5 @@
-from datetime import datetime, date
 from typing import Optional, Union
+from datetime import datetime, date
 
 
 def cast_datetime(value: Union[str, datetime, date, None],

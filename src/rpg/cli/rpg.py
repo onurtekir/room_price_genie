@@ -3,13 +3,16 @@ from pathlib import Path
 from datetime import date
 from typing import Optional, List
 
-from rpg.pipeline.kpi_calculator import KpiCalculator
 from rpg.pipeline.pipeline import Pipeline
-from rpg.utils.datetime_util import cast_date, format_datetime
 from rpg.utils.io_util import read_text_file
+from rpg.utils.datetime_util import cast_date
+from rpg.pipeline.kpi_calculator import KpiCalculator
 
 
 def show_logo():
+    """
+    Display logo
+    """
     try:
         logo_filepath = Path(__file__).parent / "art/logo.txt"
         logo = read_text_file(filepath=str(logo_filepath))
@@ -18,14 +21,16 @@ def show_logo():
         pass
 
 def run_once(config_path: str):
-    print("Run once and exit!")
-    print(f"Config path: {config_path}")
+    """
+    Instantiate and run pipeline in run_once mode
+    """
     Pipeline(config_path=config_path,
              run_once=True)
 
 def run_scheduler(config_path: str, interval_minutes: int):
-    print(f"Running scheduler every {interval_minutes} minutes...")
-    print(f"Config path: {config_path}")
+    """
+    Instantiate and start the pipeline in scheduled mode
+    """
     Pipeline(config_path=config_path,
              schedule_minutes=interval_minutes)
 
@@ -36,6 +41,9 @@ def calculate_kpi(config_filepath: str,
                   export_path: Path,
                   export_type: Optional[str] = "CSV",
                   exclude_dates: Optional[List[date]] = None):
+    """
+    Instantiate and run KPI validaiton
+    """
     calculator = KpiCalculator(config_filepath=config_filepath,
                                start_date=start_date,
                                end_date=end_date,
@@ -46,6 +54,9 @@ def calculate_kpi(config_filepath: str,
     calculator.run()
 
 def validate_date_arg(arg_value: str):
+    """
+    Validates date argument
+    """
     try:
         date_value = cast_date(value=arg_value,
                                pattern="%Y-%m-%d")
@@ -54,6 +65,9 @@ def validate_date_arg(arg_value: str):
         raise argparse.ArgumentTypeError(f"{arg_value} is not a valid date value!")
 
 def validate_dates_arg(arg_value: str):
+    """
+    Validates date_range argument
+    """
     try:
         values = arg_value.split(",")
         date_values: List[date] = []
@@ -65,6 +79,9 @@ def validate_dates_arg(arg_value: str):
         raise argparse.ArgumentTypeError(f"{arg_value} is not a valid date list!")
 
 def validate_export_type(arg_value: str):
+    """
+    Validates export_type argument
+    """
     try:
         if arg_value.upper() in ["CSV", "HTML"]:
             return arg_value.upper()
@@ -74,6 +91,9 @@ def validate_export_type(arg_value: str):
         raise
 
 def init_parser():
+    """
+    Initialize parser and subparser(s)
+    """
 
     # region Main parser
     parser = argparse.ArgumentParser(

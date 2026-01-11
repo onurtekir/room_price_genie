@@ -1,20 +1,24 @@
 import json
 import os.path
-from email.policy import default
+import numpy as np
+import pandas as pd
 from pathlib import Path
 from datetime import datetime
 
-import numpy as np
-import pandas as pd
-
-from rpg.utils.datetime_util import cast_date, cast_datetime
-from rpg.utils.hash_util import calculate_row_hash
-from rpg.utils.io_util import file_exists
 from rpg.utils.logger import Logger
+from rpg.utils.io_util import file_exists
+from rpg.utils.hash_util import calculate_row_hash
 from typing import List, Optional, Dict, Tuple, Any
+from rpg.utils.datetime_util import cast_date, cast_datetime
 from rpg.extract.extract_engine_base import ExtractEngineBase
-from rpg.utils.validation_util import validate_int, validate_string, validate_date, validate_datetime, ValidationError, \
+from rpg.utils.validation_util import (
+    validate_int,
+    validate_string,
+    validate_date,
+    validate_datetime,
+    ValidationError,
     validate_number
+)
 
 
 class LocalExtractEngine(ExtractEngineBase):
@@ -22,6 +26,9 @@ class LocalExtractEngine(ExtractEngineBase):
     # region INVENTORY EXTRACTION
 
     def extract_inventory(self) -> Optional[Tuple[Dict[str, Any], pd.DataFrame]]:
+        """
+        Load and extract inventory CSV file
+        """
         try:
 
             # region Read configuration parameters
@@ -105,7 +112,13 @@ class LocalExtractEngine(ExtractEngineBase):
                          include_stack_trace=True)
             return None
 
-    def inventory_to_dataframe(self, file_info: Dict[str, str], column_separator: str, row_seperator: str) -> pd.DataFrame:
+    def inventory_to_dataframe(self,
+                               file_info: Dict[str, str],
+                               column_separator: str,
+                               row_seperator: str) -> pd.DataFrame:
+        """
+        Load, enrich amd convert inventory CSV file to Pandas DataFrame
+        """
         df = pd.read_csv(file_info["temporary_filepath"], sep=column_separator, lineterminator=row_seperator)
         df = df[["hotel_id", "room_type_id", "quantity"]]
         df["hotel_id"] = pd.to_numeric(df["hotel_id"]).astype(int)
@@ -120,8 +133,10 @@ class LocalExtractEngine(ExtractEngineBase):
                            column_separator: str,
                            row_separator: str,
                            ignore_empty_lines: Optional[bool] = True) -> bool:
-
-        # TODO: Document it and describe, loading and validating row by row to allow huge files
+        """
+        Load and validate inventory CSV file
+        Function is validating CSV file line by line to make it available to validate huge files
+        """
 
         is_header = True
         column_names = []
@@ -203,6 +218,9 @@ class LocalExtractEngine(ExtractEngineBase):
     # region RESERVATION EXTRACTION
 
     def extract_reservations(self) -> Optional[List[Tuple[Dict[str, Any], pd.DataFrame, pd.DataFrame, pd.DataFrame]]]:
+        """
+        Load and process reservation JSON files
+        """
 
         # region Read configuration parameters
         reservations_path = Path(self.configuration["source_config"]["reservations_path"])
@@ -234,13 +252,16 @@ class LocalExtractEngine(ExtractEngineBase):
 
             for json_filename in json_filenames:
 
+                # region Move reservation JSON file to tmp folder
                 json_path = Path(os.path.join(reservations_path, json_filename))
                 temp_filepath = Path(
                     os.path.join(temp_path,
                                  f"tmp_{json_filename.split('.')[0]}_{str(datetime.now().timestamp()).replace('.', '_')}.json")
                 )
                 json_path.rename(temp_filepath)
+                # endregion
 
+                # region Validate reservations
                 validation_result = self.validate_reservation(filepath=temp_filepath)
                 if validation_result:
                     valid_rows, invalid_rows = validation_result
@@ -255,7 +276,9 @@ class LocalExtractEngine(ExtractEngineBase):
                         filename=json_filename,
                         error=ValidationError(message="Error reading JSON file")
                     ))
+                # endregion
 
+                # region Convert to DataFrames and file information dictionary
                 df_imports, df_stay_dates, df_rejected_imports = self.reservations_to_dataframe(validated_reservations)
                 ingested_reservations.append(
                     (
@@ -266,12 +289,16 @@ class LocalExtractEngine(ExtractEngineBase):
                         df_rejected_imports
                     )
                 )
+                # endregion
 
             return ingested_reservations
 
     def reservations_to_dataframe(self,
                                   reservation_imports: List[Dict[str, Any]]
                                   ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+        """
+        Convert processed reservations into DataFrames
+        """
 
         import_rows = []
         stay_date_rows = []
@@ -408,6 +435,9 @@ class LocalExtractEngine(ExtractEngineBase):
         return df_reservation_imports, df_reservation_stay_dates, df_rejected_imports
 
     def validate_reservation(self, filepath: Path) -> Optional[Tuple[List[Dict[Any, Any]], List[Dict[Any, Any]]]]:
+        """
+        Load and validate reservations
+        """
 
         if not file_exists(filepath=str(filepath)):
             Logger.error(message=f"Reservations JSON file '{str(filepath)}' not found")
@@ -420,7 +450,7 @@ class LocalExtractEngine(ExtractEngineBase):
                 data = json.load(f)
                 if "data" not in data:
                     Logger.error(f"Reservations list not found in JSON file")
-                    return False
+                    return None
                 else:
                     data = data["data"]
             Logger.success(f"Done! {len(data)} rows loaded!")
@@ -429,7 +459,7 @@ class LocalExtractEngine(ExtractEngineBase):
             valid_reservations = []
             invalid_reservations = []
 
-            # region Ingestion and Business level validations
+            # region Ingestion and Logic level validations
 
             for res in data:
 
@@ -504,7 +534,7 @@ class LocalExtractEngine(ExtractEngineBase):
 
                 # endregion
 
-                # region If there is no ingestion level validation errors, run BUSINESS LEVEL validations
+                # region If there is no ingestion level validation errors, run LOGIC LEVEL validations
                 if not reservation_validation_errors:
 
                     # region arrival_date should be less than departure_date
@@ -632,7 +662,7 @@ class LocalExtractEngine(ExtractEngineBase):
 
                         # endregion
 
-                        # region If there is no ingestion level validation error, run BUSINESS LEVEL validations
+                        # region If there is no ingestion level validation error, run LOGIC LEVEL validations
 
                         if not stay_dates_validation_errors:
 

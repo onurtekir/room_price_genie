@@ -1,5 +1,5 @@
 import jinja2
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 
 
 def apply_jinja_template(source_value: str, jinja_parameters: Dict[Any,Any]) -> str:

@@ -1,13 +1,12 @@
-from datetime import date, datetime
-from pathlib import Path
-from typing import Dict, Any, Optional, List
-
 import pandas as pd
+from pathlib import Path
+from typing import Optional, List
+from datetime import date, datetime
 
-from rpg.pipeline.pipeline_context import PipelineContext
-from rpg.utils.datetime_util import format_datetime, format_now
-from rpg.utils.io_util import read_text_file
 from rpg.utils.logger import Logger
+from rpg.utils.io_util import read_text_file
+from rpg.utils.datetime_util import format_datetime
+from rpg.pipeline.pipeline_context import PipelineContext
 from rpg.utils.string_util import apply_jinja_template
 
 
@@ -30,7 +29,11 @@ class KpiCalculator:
         self._exclude_dates = exclude_dates or []
 
     def run(self):
+        """
+        Run KPI calculation
+        """
 
+        # region Show information
         Logger.info(f"Generating KPI report")
         Logger.info(f"Hotel Id      : {self._hotel_id}")
         Logger.info(f"Start Date    : {self._start_date}")
@@ -41,6 +44,7 @@ class KpiCalculator:
             )}")
         Logger.info(f"Export Path  : {self._export_path}")
         Logger.info(f"Export Type  : {self._export_type}")
+        # endregion
 
         # region Calculate KPI
         export_columns = ["NIGHT_OF_STAY", "OCCUPANCY_PERCENTAGE", "TOTAL_NET_REVENUE", "ADR"]
@@ -61,6 +65,9 @@ class KpiCalculator:
         # endregion
 
     def _load_kpi_data(self) -> Optional[pd.DataFrame]:
+        """
+        Generate KPI data from database
+        """
         try:
 
             start_date = format_datetime(value=self._start_date, pattern="%Y-%m-%d")
@@ -71,7 +78,6 @@ class KpiCalculator:
             WHERE NIGHT_OF_STAY BETWEEN '{start_date}' AND '{end_date}' 
             AND HOTEL_ID = {self._hotel_id}
             """
-
             df_kpi = self._context.db_engine.execute(query=query, is_safe=False)
             # Convert NIGHT_OF_STAY to date format
             df_kpi["NIGHT_OF_STAY"] = df_kpi["NIGHT_OF_STAY"].dt.date
@@ -84,6 +90,9 @@ class KpiCalculator:
             return None
 
     def _export_csv_file(self, df: pd.DataFrame) -> Optional[str]:
+        """
+        Export KPI report as CSV file
+        """
         try:
             str_start_date = format_datetime(value=self._start_date, pattern="%Y_%m_%d")
             str_end_date = format_datetime(value=self._end_date, pattern="%Y_%m_%d")
@@ -99,6 +108,9 @@ class KpiCalculator:
             return None
 
     def _export_html_file(self, df: pd.DataFrame) -> Optional[str]:
+        """
+        Export KPI as HTML file
+        """
         try:
             str_start_date = format_datetime(value=self._start_date, pattern="%Y_%m_%d")
             str_end_date = format_datetime(value=self._end_date, pattern="%Y_%m_%d")

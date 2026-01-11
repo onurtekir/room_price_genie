@@ -1,11 +1,11 @@
 import json
 from typing import Dict, Any, Optional
 
+from rpg.utils.logger import Logger
+from rpg.utils.io_util import file_exists
+from rpg.utils.validation_util import validate_string
 from rpg.db_engine.db_engine_base import DBEngineBase
 from rpg.db_engine.db_engine_factory import load_db_engine
-from rpg.utils.io_util import file_exists
-from rpg.utils.logger import Logger
-from rpg.utils.validation_util import validate_string
 
 
 class PipelineContext:
@@ -24,11 +24,13 @@ class PipelineContext:
         return self._db_engine
 
     def _init_context(self, config_filepath: str, read_only: Optional[bool] = False):
+        """
+        Load configuration and initialize database engine
+        """
         self._config = self.load_config(config_path=config_filepath)
         self._db_engine = self._init_db(read_only=read_only)
 
     def load_config(self, config_path: str) -> Dict[Any, Any]:
-
         """
         Load and validate pipeline context configuration JSON file.
         """
@@ -45,7 +47,6 @@ class PipelineContext:
         Logger.info("Validating pipeline configuration...")
 
         # region Source Type
-
         if "source_type" not in config:
             raise KeyError("source_type not found in pipeline configuration file!")
 
@@ -57,7 +58,6 @@ class PipelineContext:
                                                   allowed_values=allowed_source_types)
         if not valid:
             raise ValueError(validation_error.message)
-
         # endregion
 
         # region Source Config
@@ -158,6 +158,9 @@ class PipelineContext:
         return config
 
     def _init_db(self, read_only: Optional[bool] = False) -> DBEngineBase:
+        """
+        Initialize database engine and initialize database table if not in read_only mode
+        """
         # region Load Database engine
         db_config = self._config["db_config"]
         engine_module = db_config.get("engine_module")

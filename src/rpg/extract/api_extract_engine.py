@@ -1,5 +1,3 @@
-from typing import Dict, Any
-
 from rpg.extract.extract_engine_base import ExtractEngineBase
 
 
