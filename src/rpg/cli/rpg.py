@@ -119,13 +119,13 @@ def init_parser():
         help="Calculate KPI based on hotel_id and date range"
     )
     kpi_parser.add_argument(
-        "--start-date",
+        "--from-date",
         type=validate_date_arg,
         required=True,
         help="Start date in YYYY-MM-DD format"
     )
     kpi_parser.add_argument(
-        "--end-date",
+        "-to-date",
         type=validate_date_arg,
         required=True,
         help="End date in YYYY-MM-DD format"
@@ -157,8 +157,8 @@ def init_parser():
         help="Export path of KPI report. Default path is working directory"
     )
     kpi_parser.set_defaults(func=lambda args: calculate_kpi(config_filepath=args.config_path,
-                                                            start_date=args.start_date,
-                                                            end_date=args.end_date,
+                                                            start_date=args.from_date,
+                                                            end_date=args.to_date,
                                                             hotel_id=args.hotel_id,
                                                             export_type=args.export_type,
                                                             export_path=args.export_path,
