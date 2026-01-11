@@ -194,4 +194,8 @@ Output file name is automatically formatted as:
 
 Example:
 - CSV : `kpi_1036_2025_01_01_to_2026_02_01.csv`
+![Sample CSV](src/docs/img/sample_csv.png)
+
 - HTML : `kpi_1035_2026_01_01_to_2026_02_01.html`
+
+![Sample HTML](src/docs/img/sample_html.png)
