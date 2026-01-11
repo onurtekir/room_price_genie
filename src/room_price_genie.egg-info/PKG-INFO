@@ -1,0 +1,8 @@
+Metadata-Version: 2.4
+Name: room_price_genie
+Version: 0.1.0
+Requires-Python: >=3.10
+Requires-Dist: duckdb>=1.4.0
+Requires-Dist: pandas>=2.3.0
+Requires-Dist: jinja2>=3.1.0
+Requires-Dist: jsonschema>=4.26.0

@@ -1,0 +1,15 @@
+{
+  "source_type": "local",
+  "source_config": {
+    "inventory_path": "/home/otekir/workspace/personal/data/inventory",
+    "inventory_column_separator": ",",
+    "inventory_row_separator": "\n",
+    "reservations_path": "/home/otekir/workspace/personal/data/reservations"
+  },
+  "db_config": {
+    "engine_module": "rpg.db_engine.duckdb_engine",
+    "engine_name": "DuckDBEngine",
+    "db_path": "db/rpg.db"
+  },
+  "archive_path": "/home/otekir/workspace/personal/data/archive"
+}
