@@ -1,3 +1,4 @@
+<a id="page-top"></a>
 ## Room Price Genie - _RPG Pipeline_
 
 **RPG Pipeline** is a small data ingestion and KPI generation pipeline that ingests inventory and/or reservations 
@@ -24,6 +25,7 @@ as **CSV** and **HTML**
 
 <a id="architecture-overview"></a>
 ## Architecture and Design (Overview)
+[Go to home](#page-top)
 
 The solution is implemented as a CLI-driven data pipeline that ingests inventory and reservation data, validates it, 
 and generates KPI reports.
@@ -46,6 +48,7 @@ The **KPI module** reads data from the database in read-only mode and exports KP
 
 <a id="installation"></a>
 ## Installation
+[Go to home](#page-top)
 
 ### Install using `install.sh`
 
@@ -85,6 +88,7 @@ options:
 
 <a id="configuration"></a>
 ## Configuration 
+[Go to home](#page-top)
 
 To use the pipeline, you should prepare the configuration JSON file to define all necessary configuration parameters
 
@@ -133,6 +137,7 @@ You can see the sample output of `config.json` file below:
 
 <a id="cli-usage"></a>
 ## CLI Usage
+[Go to home](#page-top)
 
 After installation, the CLI entrypoint is available as:
 ```
@@ -220,12 +225,15 @@ rpg --config-path config/config.json \
 
 <a id="date-validation"></a>
 ## Date validation rules
+[Go to home](#page-top)
+
 - Dates must be in `YYYY-MM-DD` format
 - `--exclude-dates` muts be a **comma-separeted** list of dates in `YYYY-MM-DD` format.
 - `--export-type` accepts only `CSV` or `HTML` (**case-insensitive**)
 
 <a id="architecture-design"></a>
 ## Architecture and Design
+[Go to home](#page-top)
 
 ![Overall Architecture](src/docs/img/overall_diagram.png)
 
@@ -244,11 +252,15 @@ All the deduplication, business level validations and KPI calculation are perfor
 
 <a id="data-validation-rules"></a>
 ## Data Validation Rules
+[Go to home](#page-top)
+
 You can find the detailed data validation rules documentation here:
 [Data Validation Rules](src/docs/DATA_VALIDATION_RULES.md)
 
 <a id="pipeline-ingestion-logic"></a>
 ## Pipeline Ingestion Logic
+[Go to home](#page-top)
+
 You can find the pipeline ingestion logic documentation here:
 [Pipeline Ingestion Logic](src/docs/INGESTION_LOGIC.MD)
 
@@ -271,6 +283,8 @@ Example:
 
 <a id="sample-kpi-report"></a>
 ## Sample KPI Report 
+[Go to home](#page-top)
+
 You can find the sample KPI report for the `hotel_id`=`1035` for the dates between `2026-05-01` and `2026-05-31`:
 - `CSV`: [CSV sample](src/docs/export_samples/kpi_1035_2026_05_01_to_2026_05_31.csv)
 - `HTML`: [HTML sample](src/docs/export_samples/kpi_1035_2026_05_01_to_2026_05_31.html)
