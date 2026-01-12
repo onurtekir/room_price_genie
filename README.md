@@ -10,9 +10,44 @@ It is designed as a CLI based project:
 - CLI can be used to calculate and export KPIs of the hotels using `hotel_id`, `from_date` and `to_date` 
 as **CSV** and **HTML**
 
+## Contents
+- [Architecture & Design (Overview)](#architecture-overview)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [CLI Usage](#cli-usage)
+- [DAte Validation](#date-validation)
+- [Architecture and Design](#architecture-design)
+- [Data Validation Rules](#data-validation-rules)
+- [Pipeline Ingestion Logic](#pipeline-ingestion-logic)
+- [Output File Name Convention](#output-file-name-convention)
+
+
+<a id="architecture-overview"></a>
+## Architecture and Design (Overview)
+
+The solution is implemented as a CLI-driven data pipeline that ingests inventory and reservation data, validates it, 
+and generates KPI reports.
+
+The **CLI** is the main entry point and can run the ingestion pipeline as `run_once` or `scheduled` mode, 
+as well as generate KPI reports.
+
+The **Ingestion Pipeline** reads inventory CSV file and reservation JSON files from the configured source. 
+Data is validated in `INGESTION`, `LOGIC` and `BUSINESS` level. Valid data is written to the database. 
+Rejected reservations are also written to the database with validation results for traceability.
+
+A **Scheduler** runs the ingestion pipeline at fixed intervals when running in scheduled mode.
+
+All data is stored in a **DuckDB** database. The database contains valid and rejected reservations data and inventory
+data. Database also contains views for `BUSINESS` level validations, deduplication and KPI generation.
+
+The **KPI module** reads data from the database in read-only mode and exports KPI reports as `CSV` or `HTML` files.
+
+![Overall Architecture](src/docs/img/overall_diagram.png)
+
+<a id="installation"></a>
 ## Installation
 
-### Install usig `install.sh`
+### Install using `install.sh`
 
 The projects includes a simple installation script that creates a virtual environment and installs the project.
 
@@ -48,6 +83,7 @@ options:
                         Pipeline configuration JSON file
 ```
 
+<a id="configuration"></a>
 ## Configuration 
 
 To use the pipeline, you should prepare the configuration JSON file to define all necessary configuration parameters
@@ -95,7 +131,7 @@ You can see the sample output of `config.json` file below:
 > **engine_name** : `DuckDBEngine`
 - `archive_path` (_required_) : Path to the archive folder that will store processed files.
 
-
+<a id="cli-usage"></a>
 ## CLI Usage
 
 After installation, the CLI entrypoint is available as:
@@ -182,12 +218,14 @@ rpg --config-path config/config.json \
     --export-path /home/otekir/reports
 ```
 
-### Date validation rules
+<a id="date-validation"></a>
+## Date validation rules
 - Dates must be in `YYYY-MM-DD` format
 - `--exclude-dates` muts be a **comma-separeted** list of dates in `YYYY-MM-DD` format.
 - `--export-type` accepts only `CSV` or `HTML` (**case-insensitive**)
 
-### Architecture and Design
+<a id="architecture-design"></a>
+## Architecture and Design
 
 ![Overall Architecture](src/docs/img/overall_diagram.png)
 
@@ -204,29 +242,36 @@ All the deduplication, business level validations and KPI calculation are perfor
   - `view_kpi`: KPI calculation.
 - `KPI`: KPI is responsible for calculating KPI report and exporting calculated report as `CSV` or `HTML`.
 
-
-### Data Validation Rules
+<a id="data-validation-rules"></a>
+## Data Validation Rules
 You can find the detailed data validation rules documentation here:
 [Data Validation Rules](src/docs/DATA_VALIDATION_RULES.md)
 
-### Pipeline Ingestion Logic
+<a id="pipeline-ingestion-logic"></a>
+## Pipeline Ingestion Logic
 You can find the pipeline ingestion logic documentation here:
 [Pipeline Ingestion Logic](src/docs/INGESTION_LOGIC.MD)
 
-### Sample KPI Report 
-You can find the sample KPI report for the `hotel_id`=`1035` for the dates between `2026-05-01` and `2026-05-31`:
-- `CSV`: [CSV sample](src/docs/export_samples/kpi_1035_2026_05_01_to_2026_05_31.csv)
-- `HTML`: [HTML sample](src/docs/export_samples/kpi_1035_2026_05_01_to_2026_05_31.html)
-
-### Output file name convention
+<a id="output-file-name-convention"></a>
+## Output File Name Convention
 Output file name is automatically formatted as: 
 
 `kpi_<hotel_id>_<YYYY>_<MM>_<DD>_to_<YYYY>_<MM>_<DD>.<file_extension>`
 
 Example:
 - CSV : `kpi_1036_2025_01_01_to_2026_02_01.csv`
+
 ![Sample CSV](src/docs/img/sample_csv.png)
 
 - HTML : `kpi_1035_2026_01_01_to_2026_02_01.html`
 
 ![Sample HTML](src/docs/img/sample_html.png)
+
+
+
+<a id="sample-kpi-report"></a>
+## Sample KPI Report 
+You can find the sample KPI report for the `hotel_id`=`1035` for the dates between `2026-05-01` and `2026-05-31`:
+- `CSV`: [CSV sample](src/docs/export_samples/kpi_1035_2026_05_01_to_2026_05_31.csv)
+- `HTML`: [HTML sample](src/docs/export_samples/kpi_1035_2026_05_01_to_2026_05_31.html)
+
