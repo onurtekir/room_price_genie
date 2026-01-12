@@ -1,4 +1,5 @@
 # Data Validation Rules
+[Go to README](../../README.md)
 
 RPG pipeline automatically applies `INGESTION`, `LOGIC` and `BUSINESS` level validations while ingesting 
 `inventory` and `reservations`

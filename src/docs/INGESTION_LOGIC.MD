@@ -1,4 +1,5 @@
 # Ingestion Logic
+[Go to README](../../README.md)
 
 The pipeline ingests the `inventory` and `reservations` from the folders:
 
