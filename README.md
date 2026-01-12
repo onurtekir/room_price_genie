@@ -16,7 +16,7 @@ as **CSV** and **HTML**
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [CLI Usage](#cli-usage)
-- [DAte Validation](#date-validation)
+- [Date Validation](#date-validation)
 - [Architecture and Design](#architecture-design)
 - [Data Validation Rules](#data-validation-rules)
 - [Pipeline Ingestion Logic](#pipeline-ingestion-logic)
@@ -266,6 +266,8 @@ You can find the pipeline ingestion logic documentation here:
 
 <a id="output-file-name-convention"></a>
 ## Output File Name Convention
+[Go to home](#page-top)
+
 Output file name is automatically formatted as: 
 
 `kpi_<hotel_id>_<YYYY>_<MM>_<DD>_to_<YYYY>_<MM>_<DD>.<file_extension>`
@@ -278,7 +280,6 @@ Example:
 - HTML : `kpi_1035_2026_01_01_to_2026_02_01.html`
 
 ![Sample HTML](src/docs/img/sample_html.png)
-
 
 
 <a id="sample-kpi-report"></a>
