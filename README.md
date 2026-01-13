@@ -44,7 +44,7 @@ data. Database also contains views for `BUSINESS` level validations, deduplicati
 
 The **KPI module** reads data from the database in read-only mode and exports KPI reports as `CSV` or `HTML` files.
 
-![Overall Architecture](src/docs/img/overall_diagram.png)
+![Overall Architecture](src/docs/img/overall.png)
 
 <a id="installation"></a>
 ## Installation
@@ -235,7 +235,7 @@ rpg --config-path config/config.json \
 ## Architecture and Design
 [Go to home](#page-top)
 
-![Overall Architecture](src/docs/img/overall_diagram.png)
+![Overall Architecture](src/docs/img/overall.png)
 
 - `CLI`: CLI is responsible for instantiate and run the pipeline in `run_once` and `scheduled` mode, and 
 calculate/export KPI reports.
